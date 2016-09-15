@@ -6,11 +6,16 @@
 package br.edu.ifsul.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,6 +52,15 @@ public class LivroBasico implements Serializable{
     @NotNull(message = "A data deve ser informada")
     @Column(name = "data_publicacao", nullable = false)
     private Calendar dataPublicacao;
+    @ManyToMany
+    @JoinTable(name = "Autor_Livro", 
+            joinColumns = 
+                @JoinColumn(name = "livro_basico", referencedColumnName = "ISBN", 
+                    nullable = false),
+            inverseJoinColumns = 
+                @JoinColumn(name = "autor", referencedColumnName = "id", 
+                    nullable = false))    
+    private List<Autor> autorLivro = new ArrayList<>();
 
     public LivroBasico() {
     }
@@ -114,6 +128,14 @@ public class LivroBasico implements Serializable{
             return false;
         }
         return true;
+    }
+
+    public List<Autor> getAutorLivro() {
+        return autorLivro;
+    }
+
+    public void setAutorLivro(List<Autor> autorLivro) {
+        this.autorLivro = autorLivro;
     }
     
     

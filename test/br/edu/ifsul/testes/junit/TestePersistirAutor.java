@@ -38,7 +38,7 @@ public class TestePersistirAutor {
         try {
             Autor a = new Autor();
             a.setNome("Afonso");
-            a.setBibliografia("Nasceu em 1975, doutourad em");
+            a.setBibliografia("Nasceu em 1975, doutourado em");
             em.getTransaction().begin();
             em.persist(a);
             em.getTransaction().commit();

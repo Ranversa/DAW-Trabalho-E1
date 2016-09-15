@@ -6,8 +6,10 @@
 package br.edu.ifsul.testes.junit;
 
 import br.edu.ifsul.jpa.EntityManagerUtil;
+import br.edu.ifsul.modelo.Autor;
 import br.edu.ifsul.modelo.LivroBasico;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -41,11 +43,13 @@ public class TestePersistirLivroBasico {
         boolean exception = false;
         try {
             LivroBasico lb = new LivroBasico();
-            lb.setISBN("1234567891234");
+            lb.setISBN("12345679874");
             lb.setTitulo("Persistencia testes");
             lb.setResumo("Testanndo persistencia com JPA");
             lb.setEditora("Nuova");
             lb.setDataPublicacao(Calendar.getInstance());
+            Autor a = em.find(Autor.class, 1);
+            lb.getAutorLivro().add(a);
             em.getTransaction().begin();
             em.persist(lb);
             em.getTransaction().commit();
