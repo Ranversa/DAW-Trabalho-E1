@@ -43,7 +43,7 @@ public class TestePersistirLivroBasico {
         boolean exception = false;
         try {
             LivroBasico lb = new LivroBasico();
-            lb.setISBN("12345679874");
+            lb.setISBN("123123123");
             lb.setTitulo("Persistencia testes");
             lb.setResumo("Testanndo persistencia com JPA");
             lb.setEditora("Nuova");

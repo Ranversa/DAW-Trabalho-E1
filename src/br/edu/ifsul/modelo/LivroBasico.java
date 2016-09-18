@@ -13,6 +13,8 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -28,6 +30,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author ROBSON
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "livro_basico")
 public class LivroBasico implements Serializable{
     @Id
