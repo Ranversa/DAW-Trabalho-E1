@@ -6,9 +6,8 @@
 package br.edu.ifsul.testes.junit;
 
 import br.edu.ifsul.jpa.EntityManagerUtil;
-import br.edu.ifsul.modelo.Autor;
-import br.edu.ifsul.modelo.LivroBasico;
-import java.util.Calendar;
+import br.edu.ifsul.modelo.Catalogo;
+import br.edu.ifsul.modelo.Livraria;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolation;
@@ -18,15 +17,14 @@ import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author ROBSON
  */
-public class TestePersistirLivroBasico {
+public class TestePersistirCatalogo {
     EntityManager em;
-    public TestePersistirLivroBasico() {
+    public TestePersistirCatalogo() {
     }
     
     @Before
@@ -43,25 +41,22 @@ public class TestePersistirLivroBasico {
     public void teste(){
         boolean exception = false;
         try {
-            LivroBasico lb = new LivroBasico();
-            lb.setISBN("123123123");
-            lb.setTitulo("Persistencia testes");
-            lb.setResumo("Testanndo persistencia com JPA");
-            lb.setEditora("Nuova");
-            lb.setDataPublicacao(Calendar.getInstance());
-            Autor a = em.find(Autor.class, 1);
+            Catalogo c = new Catalogo();
+            Livraria lv = em.find(Livraria.class, 1);
+            c.setNome("Aventura");
+            c.setDescricao("Livros das mais diversa formas de aventuras reais e ficticias");
+            lv.adicionarCatalogo(c);
             Validator validador
                     = Validation.buildDefaultValidatorFactory().getValidator();
-            Set<ConstraintViolation<LivroBasico>> erros = validador.validate(lb);
+            Set<ConstraintViolation<Catalogo>> erros = validador.validate(c);
             if (erros.size() > 0) {
-                for (ConstraintViolation<LivroBasico> erro : erros) {
+                for (ConstraintViolation<Catalogo> erro : erros) {
                     System.out.println("Erro: " + erro.getMessage());
                 }
                 exception = true;
             } else {
-            lb.getAutorLivro().add(a);
             em.getTransaction().begin();
-            em.persist(lb);
+            em.persist(c);
             em.getTransaction().commit();
             }
         } catch(Exception e){

@@ -28,14 +28,14 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Livro extends LivroBasico implements Serializable{
     @NotNull(message = "O codigo de barras não pode ser nulo")
     @Length(max = 50, message = "O codigo de barras não pode ter mais de {max} caracteres")
-    @NotBlank(message = "O nome não pode ser em branco")
+    @NotBlank(message = "O Codigo de barras não pode ser em branco")
     @Column(name = "codigo_barras", length = 50, nullable = false)
     private String codigoBarras;
     @NotNull(message = "O numero de paginas não pode ser nulo")
     @Column(name = "numero_paginas", length = 50, nullable = false)
     private Integer numeroPaginas;
     @NotNull(message = "É necessario informar se o livro esta ativo")
-    @Column(name = "nome", length = 50, nullable = false)
+    @Column(name = "ativo", length = 50, nullable = false)
     private Boolean ativo;
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull(message = "A data de cadastor deve ser informada")

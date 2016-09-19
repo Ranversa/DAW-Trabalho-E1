@@ -16,6 +16,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -29,7 +31,8 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity
 @Table(name = "catalogo")
-public class Catalogo implements Serializable{
+public class Catalogo implements Serializable {
+
     @Id
     @SequenceGenerator(name = "seq_catalogo", sequenceName = "seq_catalogo_id", allocationSize = 1)
     @GeneratedValue(generator = "seq_catalogo", strategy = GenerationType.SEQUENCE)
@@ -37,23 +40,28 @@ public class Catalogo implements Serializable{
     @NotNull(message = "O Nome do catalogo não pode ser nulo")
     @Length(max = 30, message = "O Nome do catalogo não pode ter mais de {max} caracteres")
     @NotBlank(message = "O Nome do catalogo não pode ser em branco")
-    @Column(name = "nome", length = 30, nullable = false)    
+    @Column(name = "nome", length = 30, nullable = false)
     private String nome;
     @NotNull(message = "A descrição não pode ser nula")
     @NotBlank(message = "A descriçaõ não pode ser em branco")
-    @Column(name = "descricao", columnDefinition = "text", nullable = false)    
+    @Column(name = "descricao", columnDefinition = "text", nullable = false)
     private String descricao;
-    @OneToMany(mappedBy = "catalogo", cascade = CascadeType.ALL, 
-            orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "catalogo", cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Livro> livros = new ArrayList<>();
+    @NotNull(message = "A livraria deve ser informada")
+    @ManyToOne
+    @JoinColumn(name = "livraria_id", referencedColumnName = "id", nullable = false)
+    private Livraria livraria;
 
-    public void adicionarLivro(Livro l){
+    public void adicionarLivro(Livro l) {
         l.setCatalogo(this);
         this.livros.add(l);
     }
-    public void removerLivro(int index){
+
+    public void removerLivro(int index) {
         this.livros.remove(index);
     }
+
     public Catalogo() {
     }
 
@@ -80,7 +88,7 @@ public class Catalogo implements Serializable{
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
+
     public List<Livro> getLivros() {
         return livros;
     }
@@ -113,5 +121,13 @@ public class Catalogo implements Serializable{
         }
         return true;
     }
-    
+
+    public Livraria getLivraria() {
+        return livraria;
+    }
+
+    public void setLivraria(Livraria livraria) {
+        this.livraria = livraria;
+    }
+
 }

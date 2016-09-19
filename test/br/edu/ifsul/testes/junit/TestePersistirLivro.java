@@ -7,7 +7,10 @@ package br.edu.ifsul.testes.junit;
 
 import br.edu.ifsul.jpa.EntityManagerUtil;
 import br.edu.ifsul.modelo.Autor;
-import br.edu.ifsul.modelo.LivroBasico;
+import br.edu.ifsul.modelo.Catalogo;
+import br.edu.ifsul.modelo.Formato;
+import br.edu.ifsul.modelo.Idioma;
+import br.edu.ifsul.modelo.Livro;
 import java.util.Calendar;
 import java.util.Set;
 import javax.persistence.EntityManager;
@@ -24,9 +27,9 @@ import static org.junit.Assert.*;
  *
  * @author ROBSON
  */
-public class TestePersistirLivroBasico {
+public class TestePersistirLivro {
     EntityManager em;
-    public TestePersistirLivroBasico() {
+    public TestePersistirLivro() {
     }
     
     @Before
@@ -43,25 +46,34 @@ public class TestePersistirLivroBasico {
     public void teste(){
         boolean exception = false;
         try {
-            LivroBasico lb = new LivroBasico();
-            lb.setISBN("123123123");
-            lb.setTitulo("Persistencia testes");
-            lb.setResumo("Testanndo persistencia com JPA");
-            lb.setEditora("Nuova");
-            lb.setDataPublicacao(Calendar.getInstance());
+            Livro l = new Livro();
+            Catalogo c = em.find(Catalogo.class, 4);
+            l.setISBN("123123123971");
+            l.setTitulo("Persistencia testes");
+            l.setResumo("Testanndo persistencia com JPA");
+            l.setEditora("Nuova");
+            l.setDataPublicacao(Calendar.getInstance());
+            l.setAtivo(true);
+            l.setFormato(em.find(Formato.class, 1));
+            l.setIdioma(em.find(Idioma.class, 1));
+            l.setDataCadastro(Calendar.getInstance());
+            l.setNumeroPaginas(87);
+            l.setValor(76.95);
+            l.setCodigoBarras("798465132");
+            c.adicionarLivro(l);
             Autor a = em.find(Autor.class, 1);
+            l.getAutorLivro().add(a);
             Validator validador
                     = Validation.buildDefaultValidatorFactory().getValidator();
-            Set<ConstraintViolation<LivroBasico>> erros = validador.validate(lb);
+            Set<ConstraintViolation<Livro>> erros = validador.validate(l);
             if (erros.size() > 0) {
-                for (ConstraintViolation<LivroBasico> erro : erros) {
+                for (ConstraintViolation<Livro> erro : erros) {
                     System.out.println("Erro: " + erro.getMessage());
                 }
                 exception = true;
             } else {
-            lb.getAutorLivro().add(a);
             em.getTransaction().begin();
-            em.persist(lb);
+            em.persist(l);
             em.getTransaction().commit();
             }
         } catch(Exception e){
