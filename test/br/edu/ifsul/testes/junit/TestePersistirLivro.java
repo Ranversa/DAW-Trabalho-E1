@@ -48,7 +48,7 @@ public class TestePersistirLivro {
         try {
             Livro l = new Livro();
             Catalogo c = em.find(Catalogo.class, 4);
-            l.setISBN("123123123971");
+            l.setISBN("1231231");
             l.setTitulo("Persistencia testes");
             l.setResumo("Testanndo persistencia com JPA");
             l.setEditora("Nuova");
@@ -61,7 +61,7 @@ public class TestePersistirLivro {
             l.setValor(76.95);
             l.setCodigoBarras("798465132");
             c.adicionarLivro(l);
-            Autor a = em.find(Autor.class, 1);
+            Autor a = em.find(Autor.class, 2);
             l.getAutorLivro().add(a);
             Validator validador
                     = Validation.buildDefaultValidatorFactory().getValidator();
