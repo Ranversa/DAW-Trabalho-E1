@@ -48,7 +48,7 @@ public class TestePersistirLivro {
         try {
             Livro l = new Livro();
             Catalogo c = em.find(Catalogo.class, 4);
-            l.setISBN("1231231");
+            l.setISBN("1231231765");
             l.setTitulo("Persistencia testes");
             l.setResumo("Testanndo persistencia com JPA");
             l.setEditora("Nuova");
