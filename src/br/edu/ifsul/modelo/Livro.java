@@ -53,7 +53,6 @@ public class Livro extends LivroBasico implements Serializable{
     @ManyToOne
     @JoinColumn(name = "idioma", referencedColumnName = "id", nullable = false)
     private Idioma idioma;
-    @NotNull(message = "O catalogo deve ser informado")
     @ManyToOne
     @JoinColumn(name = "catalogo_id", referencedColumnName = "id", nullable = false)
     private Catalogo catalogo;
